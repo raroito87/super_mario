@@ -1,4 +1,5 @@
 import enum
+import math
 
 class CellType(enum.Enum):
     free = 0
@@ -9,8 +10,9 @@ class CellType(enum.Enum):
 class Cell():
     def __init__(self, cell_type=CellType.free, pos=None):
         self.type = cell_type
-        self.count = 0
+        self.count = math.inf
         self.path_from = None
+        self.path_to = None
         self.pos = pos
 
 

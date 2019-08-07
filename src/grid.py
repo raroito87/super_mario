@@ -3,13 +3,13 @@ import copy
 from src import Cell, CellType
 
 class Grid:
-    def __init__(self, s_x, s_y):
+    def __init__(self, grid):
         # initialize the board
-        self.board = [[Cell(type = CellType.free, pos=[ix,iy]) for iy in range(s_y)] for ix in range(s_x)]
-        self. initialized = False
+        self.board = grid
 
     def get_size(self):
-        return [len(self.board), len(self.board[0])]
+        # it is always square
+        return [len(self.board), len(self.board)]
 
     def at(self, pos):
         return self.board[pos[0]][pos[1]]
