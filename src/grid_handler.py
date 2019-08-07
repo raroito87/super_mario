@@ -16,13 +16,16 @@ class GridHandler():
 
     def initialize_grid(self, N, raw_grid):
         if self._is_raw_grid_incorrect(N, raw_grid):
+            print('raw grid is incorrect')
             return
 
-        grid = Grid([[Cell(cell_type=self.dict[list(raw_grid[ix])[iy]], pos=[ix, iy]) for iy in range(N)] for ix in range(N)])
-
-        return grid
+        return Grid([[Cell(cell_type=self.dict[list(raw_grid[ix])[iy]], pos=[ix, iy]) for iy in range(N)] for ix in range(N)])
 
     def get_start_end(self, grid):
+        if grid is None:
+            self.error_flag = True
+            return None, None
+
         start = []
         end = []
         # https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-list-of-lists
@@ -37,16 +40,26 @@ class GridHandler():
         return start, end
 
     def find_shortest_path(self, grid, start, end):
-        grid = self.fill_grid_distances(grid, start, end)
+        if grid is None or start is None or end is None:
+            self.error_flag = True
+            return None
 
+        grid = self._fill_grid_distances(grid, start, end)
         return self._return_path_to_princess(grid, end)
 
     def find_multiple_shortest_paths(self, grid, start, end):
-        grid = self.fill_grid_distances(grid, start, end)
+        if grid is None or start is None or end is None:
+            self.error_flag = True
+            return None
 
-        return self._return_all_paths_to_princess(grid, start, end)
+        grid = self._fill_grid_distances(grid, start, end)
+        return self._return_all_paths_to_princess(grid, end)
 
-    def fill_grid_distances(self, grid, start, end):
+    def _fill_grid_distances(self, grid, start, end):
+        if grid is None or start is None or end is None:
+            self.error_flag = True
+            return None
+
         max_distance = math.inf
 
         # we start here, thus a distance of 0
@@ -85,21 +98,22 @@ class GridHandler():
                     cell.paths_from.append(cur_cell)
                     open_list.append(n_cell_pos)
                 elif cell.count == dist:# same distance I add another parent
-                    cell.count = dist
                     cell.paths_from.append(cur_cell)
-
-        print('finish path search')
 
         princess_cell = grid.at(end)
         if princess_cell.count == math.inf:
             print('no path found')
             self.error_flag = True
-            return
+            return None
 
         return grid
 
     def _return_path_to_princess(self, grid, end):
-        """ Returns the path to the end"""
+        if grid is None or end is None:
+            self.error_flag = True
+            return None
+
+        # Returns one shortest path to the end
         cell = grid.at(end)
         path = []
         while cell != None:
@@ -108,15 +122,18 @@ class GridHandler():
 
         return self._path_to_move_str(path)
 
-    def _return_all_paths_to_princess(self, grid, start, end):
+    def _return_all_paths_to_princess(self, grid, end):
+        if grid is None or end is None:
+            self.error_flag = True
+            return None
+
+        # Returns all shortest paths to the end
         cell = grid.at(end)
         path = []
         self.all_paths.clear()
 
         self._recurrent(cell, path)
-
         return [self._path_to_move_str(path) for path in self.all_paths]
-
 
     def _recurrent(self, cell, path):
         if cell.type == CellType.mario:
@@ -126,11 +143,8 @@ class GridHandler():
             return
 
         path.append(cell.pos)
-
         for p_c in cell.paths_from:
             self._recurrent(p_c, copy.deepcopy(path))
-
-        return
 
     def _path_to_move_str(self, path):
         path_rev = path[::-1]
@@ -140,18 +154,25 @@ class GridHandler():
 
         return [self.dict_directions[str(d)] for d in dif]
 
-
     def _is_raw_grid_incorrect(self, N, raw_grid):
         if N < 1 or N is not len(raw_grid):
             self.error_flag = True
             return True
 
+        n_m = 0
+        n_p = 0
         for s in raw_grid:
-            if isinstance(s, str) and len(s) == 3:
+            if isinstance(s, str) and len(s) == N:
+                n_m += s.count('m')
+                n_p += s.count('p')
                 continue
             else:
                 self.error_flag = True
                 return True
+
+        if n_m is not 1 or n_p is not 1:
+            self.error_flag = True
+            return True
 
         return False
 
