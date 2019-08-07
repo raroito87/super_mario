@@ -4,6 +4,7 @@ from src.grid import Grid
 import itertools
 
 import math
+import copy
 
 class GridHandler():
 
@@ -11,6 +12,7 @@ class GridHandler():
         self.error_flag = False
         self.dict = {'-': CellType.free, 'x': CellType.obstacle, 'm': CellType.mario, 'p': CellType.princess}
         self.dict_directions = {'[-1, 0]': 'UP', '[1, 0]': 'DOWN', '[0, -1]': 'LEFT', '[0, 1]': 'RIGHT'}
+        self.all_paths = []
 
     def initialize_grid(self, N, raw_grid):
         if self._is_raw_grid_incorrect(N, raw_grid):
@@ -34,8 +36,17 @@ class GridHandler():
 
         return start, end
 
-
     def find_shortest_path(self, grid, start, end):
+        grid = self.fill_grid_distances(grid, start, end)
+
+        return self._return_path_to_princess(grid, end)
+
+    def find_multiple_shortest_paths(self, grid, start, end):
+        grid = self.fill_grid_distances(grid, start, end)
+
+        return self._return_all_paths_to_princess(grid, start, end)
+
+    def fill_grid_distances(self, grid, start, end):
         max_distance = math.inf
 
         # we start here, thus a distance of 0
@@ -68,10 +79,14 @@ class GridHandler():
                 # if the neighbor distance is higher than dist
                 # means I have now a shorter way
                 if cell.count > dist:
-                  cell.count = dist
-                  cell.path_from = cur_cell
-                  cur_cell.path_to = cell
-                  open_list.append(n_cell_pos)
+                    cell.paths_from.clear()
+                    cell.count = dist
+                    cell.path_from = cur_cell
+                    cell.paths_from.append(cur_cell)
+                    open_list.append(n_cell_pos)
+                elif cell.count == dist:# same distance I add another parent
+                    cell.count = dist
+                    cell.paths_from.append(cur_cell)
 
         print('finish path search')
 
@@ -81,9 +96,9 @@ class GridHandler():
             self.error_flag = True
             return
 
-        return self._return_path_to_princess(grid, start, end)
+        return grid
 
-    def _return_path_to_princess(self, grid, start, end):
+    def _return_path_to_princess(self, grid, end):
         """ Returns the path to the end"""
         cell = grid.at(end)
         path = []
@@ -91,6 +106,33 @@ class GridHandler():
             path.append(cell.pos)
             cell = cell.path_from
 
+        return self._path_to_move_str(path)
+
+    def _return_all_paths_to_princess(self, grid, start, end):
+        cell = grid.at(end)
+        path = []
+        self.all_paths.clear()
+
+        self._recurrent(cell, path)
+
+        return [self._path_to_move_str(path) for path in self.all_paths]
+
+
+    def _recurrent(self, cell, path):
+        if cell.type == CellType.mario:
+            # save path
+            path.append(cell.pos)
+            self.all_paths.append(path)
+            return
+
+        path.append(cell.pos)
+
+        for p_c in cell.paths_from:
+            self._recurrent(p_c, copy.deepcopy(path))
+
+        return
+
+    def _path_to_move_str(self, path):
         path_rev = path[::-1]
         dif = []
         for i in range(len(path_rev) - 1):

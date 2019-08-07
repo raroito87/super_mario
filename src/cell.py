@@ -12,8 +12,9 @@ class Cell():
         self.type = cell_type
         self.count = math.inf
         self.path_from = None
-        self.path_to = None
+        self.paths_from = []
         self.pos = pos
+
 
 
 
