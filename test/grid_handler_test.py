@@ -29,7 +29,6 @@ class GridHandlerTest(unittest.TestCase):
         self.assertEqual(gr.error_flag, True)
 
     def test_initialize_grid_proper_size_incorrect_3(self):
-        # case 3
         N = 3
         list_grid = [123, '-x-', '-p-']
 
@@ -38,9 +37,32 @@ class GridHandlerTest(unittest.TestCase):
         self.assertEqual(gr.error_flag, True)
 
     def test_initialize_grid_proper_size_incorrect_4(self):
-        # case 4
         N = 3
         list_grid = ['--m-', '-x-', '-p-']
+
+        gr = GridHandler()
+        gr.initialize_grid(N, list_grid)
+        self.assertEqual(gr.error_flag, True)
+
+    def test_initialize_grid_proper_size_incorrect_5(self):
+        N = 3
+        list_grid = ['--m-', '-x-', '-p-', '---']
+
+        gr = GridHandler()
+        gr.initialize_grid(N, list_grid)
+        self.assertEqual(gr.error_flag, True)
+
+    def test_initialize_grid_proper_size_incorrect_6(self):
+        N = 3.5
+        list_grid = ['--m','-x-','-p-']
+
+        gr = GridHandler()
+        gr.initialize_grid(N, list_grid)
+        self.assertEqual(gr.error_flag, True)
+
+    def test_initialize_grid_proper_size_incorrect_7(self):
+        N = -1
+        list_grid = ['--m','-x-','-p-']
 
         gr = GridHandler()
         gr.initialize_grid(N, list_grid)
@@ -116,8 +138,7 @@ class GridHandlerTest(unittest.TestCase):
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
-        start, end = gr.get_start_end(grid)
-        paths = gr.find_multiple_shortest_paths(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid)
 
         self.assertEqual(paths == paths_true, True)
         self.assertEqual(gr.error_flag, False)
@@ -129,8 +150,7 @@ class GridHandlerTest(unittest.TestCase):
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
-        start, end = gr.get_start_end(grid)
-        paths = gr.find_multiple_shortest_paths(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid)
 
         self.assertEqual(paths == paths_true, True)
         self.assertEqual(gr.error_flag, False)
@@ -141,8 +161,7 @@ class GridHandlerTest(unittest.TestCase):
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
-        start, end = gr.get_start_end(grid)
-        paths = gr.find_multiple_shortest_paths(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid)
 
         self.assertEqual(paths is None, True)
         self.assertEqual(gr.error_flag, True)
@@ -154,8 +173,7 @@ class GridHandlerTest(unittest.TestCase):
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
-        start, end = gr.get_start_end(grid)
-        paths = gr.find_multiple_shortest_paths(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid)
 
         self.assertEqual(paths == paths_true, True)
         self.assertEqual(gr.error_flag, False)
@@ -167,8 +185,7 @@ class GridHandlerTest(unittest.TestCase):
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
-        start, end = gr.get_start_end(grid)
-        paths = gr.find_multiple_shortest_paths(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid)
 
         self.assertEqual(paths == paths_true, True)
         self.assertEqual(gr.error_flag, False)
@@ -181,8 +198,7 @@ class GridHandlerTest(unittest.TestCase):
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
-        start, end = gr.get_start_end(grid)
-        paths = gr.find_multiple_shortest_paths(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid)
 
         self.assertEqual(paths == paths_true, True)
         self.assertEqual(gr.error_flag, False)

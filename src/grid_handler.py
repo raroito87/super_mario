@@ -17,11 +17,24 @@ class GridHandler():
     def initialize_grid(self, N, raw_grid):
         if self._is_raw_grid_incorrect(N, raw_grid):
             print('raw grid is incorrect')
-            return
+            return None
 
         return Grid([[Cell(cell_type=self.dict[list(raw_grid[ix])[iy]], pos=[ix, iy]) for iy in range(N)] for ix in range(N)])
 
-    def get_start_end(self, grid):
+    def find_multiple_shortest_paths(self, grid):
+        if grid is None:
+            self.error_flag = True
+            return None
+
+        start, end = self._get_start_end(grid)
+        if start is None or end is None:
+            self.error_flag = True
+            return None
+
+        grid = self._fill_grid_distances(grid, start, end)
+        return self._return_all_paths_to_princess(grid, end)
+
+    def _get_start_end(self, grid):
         if grid is None:
             self.error_flag = True
             return None, None
@@ -38,14 +51,6 @@ class GridHandler():
                 end = c.pos
 
         return start, end
-
-    def find_multiple_shortest_paths(self, grid, start, end):
-        if grid is None or start is None or end is None:
-            self.error_flag = True
-            return None
-
-        grid = self._fill_grid_distances(grid, start, end)
-        return self._return_all_paths_to_princess(grid, end)
 
     def _fill_grid_distances(self, grid, start, end):
         if grid is None or start is None or end is None:
@@ -133,7 +138,7 @@ class GridHandler():
         return [self.dict_directions[str(d)] for d in dif]
 
     def _is_raw_grid_incorrect(self, N, raw_grid):
-        if N < 1 or N is not len(raw_grid):
+        if not isinstance(N, int) or N < 1 or N is not len(raw_grid):
             self.error_flag = True
             return True
 
