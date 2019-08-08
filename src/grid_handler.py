@@ -39,14 +39,6 @@ class GridHandler():
 
         return start, end
 
-    def find_shortest_path(self, grid, start, end):
-        if grid is None or start is None or end is None:
-            self.error_flag = True
-            return None
-
-        grid = self._fill_grid_distances(grid, start, end)
-        return self._return_path_to_princess(grid, end)
-
     def find_multiple_shortest_paths(self, grid, start, end):
         if grid is None or start is None or end is None:
             self.error_flag = True
@@ -107,20 +99,6 @@ class GridHandler():
             return None
 
         return grid
-
-    def _return_path_to_princess(self, grid, end):
-        if grid is None or end is None:
-            self.error_flag = True
-            return None
-
-        # Returns one shortest path to the end
-        cell = grid.at(end)
-        path = []
-        while cell != None:
-            path.append(cell.pos)
-            cell = cell.path_from
-
-        return self._path_to_move_str(path)
 
     def _return_all_paths_to_princess(self, grid, end):
         if grid is None or end is None:

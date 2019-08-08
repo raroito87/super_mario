@@ -109,56 +109,43 @@ class GridHandlerTest(unittest.TestCase):
         self.assertEqual(grid.board[2][2].pos == [2, 2], True)
         self.assertEqual(gr.error_flag, False)
 
-    def test_find_shortest_path_N3_correct_1(self):
+    def test_find_multiple_shortest_path_N3_correct_1(self):
         N = 3
         list_grid = ['--m', '-x-', '-p-']
-        paths_true = ['DOWN', 'DOWN', 'LEFT']
+        paths_true = [['DOWN', 'DOWN', 'LEFT']]
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
         start, end = gr.get_start_end(grid)
-        paths = gr.find_shortest_path(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid, start, end)
 
         self.assertEqual(paths == paths_true, True)
         self.assertEqual(gr.error_flag, False)
 
-    def test_find_shortest_path_N3_correct_2(self):
+    def test_find_multiple_shortest_path_N3_correct_2(self):
         N = 3
         list_grid = ['--m', '-x-', '-px']
-        paths_true = ['LEFT', 'LEFT', 'DOWN', 'DOWN', 'RIGHT']
+        paths_true = [['LEFT', 'LEFT', 'DOWN', 'DOWN', 'RIGHT']]
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
         start, end = gr.get_start_end(grid)
-        paths = gr.find_shortest_path(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid, start, end)
 
         self.assertEqual(paths == paths_true, True)
         self.assertEqual(gr.error_flag, False)
 
-    def test_find_shortest_path_N3_incorrect(self):
+    def test_find_multiple_shortest_path_N3_incorrect(self):
         N = 3
         list_grid = ['--m', '-x-', 'xpx']
 
         gr = GridHandler()
         grid = gr.initialize_grid(N, list_grid)
         start, end = gr.get_start_end(grid)
-        paths = gr.find_shortest_path(grid, start, end)
+        paths = gr.find_multiple_shortest_paths(grid, start, end)
 
         self.assertEqual(paths is None, True)
         self.assertEqual(gr.error_flag, True)
-
-    def test_find_shortest_path_N3_multiple_correct_1(self):
-        N = 3
-        list_grid = ['x-m', '---', '-p-']
-        path_true = ['DOWN', 'DOWN', 'LEFT']
-
-        gr = GridHandler()
-        grid = gr.initialize_grid(N, list_grid)
-        start, end = gr.get_start_end(grid)
-        path = gr.find_shortest_path(grid, start, end)
-
-        self.assertEqual(path == path_true, True)
-        self.assertEqual(gr.error_flag, False)
 
     def test_find_multiple_shortest_path_N3_multiple_correct_1(self):
         N = 3
