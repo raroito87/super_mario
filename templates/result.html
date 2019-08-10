@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h2>Save the princess
+    <h1>Save the princess</h1>
         {% for row in grid %}
             <h1>{{row}}</h1>
         {% endfor %}
@@ -12,4 +12,10 @@
         {% endfor %}
 
     </ul>
+    <h3>Flag error: {{flag}}</h3>
+
+    {% from "_formhelpers.html" import render_field %}
+    <form method=post>
+      <p><input type=submit value=Return>
+    </form>
 {% endblock content%}
