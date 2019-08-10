@@ -15,11 +15,8 @@ init_db()
 
 @app.route('/input', methods=['GET', 'POST'])
 def input():
-    print(input)
     grid = GridInputForm(request.form)
     if request.method == 'POST':
-        print(grid)
-        print('post')
         return result(raw_grid=grid.grid.data, N=int(grid.n.data))
 
     return render_template('input.html', form=grid)
@@ -43,8 +40,11 @@ def display_results(search):
 def result(raw_grid, N):
     print(raw_grid)
     replay = ReplayForm(request.form)
-    #if request.method == 'POST':
-    #    return input()
+    if request.method == 'GET':
+        print('it is get')
+    if request.method == 'POST':
+        print('it is post')
+        #return input()
 
     t0 = time.time()
     n = int(len(raw_grid)/N)
