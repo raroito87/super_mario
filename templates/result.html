@@ -1,11 +1,12 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h1>Save the princess</h1>
+    <h1>Save the  from:</h1>
         {% for row in grid %}
             <h1>{{row}}</h1>
         {% endfor %}
 
     </ul>
+    <h2>Possible paths:</h2>
     <ul>
         {% for path in paths %}
             <li>{{path}}</li>

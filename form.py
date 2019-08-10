@@ -6,5 +6,6 @@ class GridInputForm(Form):
     n = StringField('N')
     submit = StringField('')
 
-class ReplayForm(Form):
-    replay = StringField('')
+class PlayForm(Form):
+    pass
+
