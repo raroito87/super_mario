@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime, Float
+from sqlalchemy import Column, String, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 engine = create_engine('sqlite:///mario_moves.db', echo=True)
@@ -16,4 +16,5 @@ class MarioPaths(Base):
         return "{}".format(self.name)
 
 # create tables
-Base.metadata.create_all(engine)
+def create_table():
+    Base.metadata.create_all(engine)

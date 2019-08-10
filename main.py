@@ -1,17 +1,16 @@
 from flask import Flask, render_template, request, redirect, flash
 from src import MarioAndPrincess
-import sqlite3
-from sqlite3 import Error
 import time
 from form import GridInputForm
 from models import MarioMoves
 from app import app
 from db_setup import init_db, db_session
+from db_creator import create_table
 import ast
 import datetime
 
+create_table()
 init_db()
-
 
 @app.route('/', methods=['GET', 'POST'])
 def base():
@@ -30,6 +29,12 @@ def input():
 @app.route('/result', methods=['GET', 'POST'])
 def result(raw_grid, N):
     list_grid = ast.literal_eval(raw_grid)
+    print(list_grid)
+    if request.method == 'GET':
+        print('it is get')
+    if request.method == 'POST':
+        print('it is post')
+        #return input()
 
     t0 = time.time()
     paths, error_flag = MarioAndPrincess().get_paths(N, list_grid)
