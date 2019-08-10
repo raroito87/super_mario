@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h2>Save the princess
+        {% for row in grid %}
+            <h1>{{row}}</h1>
+        {% endfor %}
+
+    </ul>
+    <ul>
+        {% for path in paths %}
+            <li>{{path}}</li>
+        {% endfor %}
+
+    </ul>
+{% endblock content%}
