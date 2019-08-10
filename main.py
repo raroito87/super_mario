@@ -3,11 +3,12 @@ from src import MarioAndPrincess
 import sqlite3
 from sqlite3 import Error
 import time
-from form import GridInputForm, PlayForm
+from form import GridInputForm
 from models import Moves
-
 from app import app
 from db_setup import init_db, db_session
+import ast
+
 init_db()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -24,8 +25,8 @@ def input():
 
 @app.route('/result', methods=['GET', 'POST'])
 def result(raw_grid, N):
-    print(raw_grid)
-    replay = PlayForm(request.form)
+    list_grid = ast.literal_eval(raw_grid)
+    print(list_grid)
     if request.method == 'GET':
         print('it is get')
     if request.method == 'POST':
@@ -33,10 +34,10 @@ def result(raw_grid, N):
         #return input()
 
     t0 = time.time()
-    n = int(len(raw_grid)/N)
-    list_grid = []
-    for i in range(n):
-        list_grid.append(raw_grid[N*i: N*(i+1)])
+    # n = int(len(raw_grid)/N)
+    #list_grid = []
+    #for i in range(n):
+    #    list_grid.append(raw_grid[N*i: N*(i+1)])
 
     paths, error_flag = MarioAndPrincess().get_paths(N, list_grid)
 
@@ -46,23 +47,8 @@ def result(raw_grid, N):
     print(move_str)
     t1 = time.time() - t0
     print('time elapsed:', t1)
-    return render_template('result.html',form=replay, grid=list_grid, paths=move_list, flag=error_flag)
+    return render_template('result.html',grid=list_grid, paths=move_list, flag=error_flag)
 
-
-@app.route('/display')
-def display_results(search):
-    results = []
-    search_string = search.data['search']
-
-    if search.data['search'] == '':
-        qry = db_session.query(Moves)
-
-    if not results:
-        flash('No results found!')
-        return redirect('/')
-    else:
-        # display results
-        return render_template('result.html', results=results)
 
 if __name__ == '__main__':
     app.run(debug=True)
