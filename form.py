@@ -1,5 +1,4 @@
-from wtforms import Form, StringField, SelectField
-from wtforms.validators import DataRequired
+from wtforms import Form, StringField
 
 class GridInputForm(Form):
     grid = StringField('Grid')

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import render_template, request
 from src import MarioAndPrincess
 import time
 from form import GridInputForm
@@ -29,20 +29,12 @@ def input():
 @app.route('/result', methods=['GET', 'POST'])
 def result(raw_grid, N):
     list_grid = ast.literal_eval(raw_grid)
-    print(list_grid)
-    if request.method == 'GET':
-        print('it is get')
-    if request.method == 'POST':
-        print('it is post')
-        #return input()
 
     t0 = time.time()
     paths, error_flag = MarioAndPrincess().get_paths(N, list_grid)
     move_list = [' '.join(path) for path in paths]
     move_str  = ','.join(move_list)
     t1 = time.time() - t0
-
-    print('time elapsed:', t1)
 
     if error_flag is False:
         save_entry(move_str, t1)

@@ -1,5 +1,4 @@
 import unittest
-
 from src import GridHandler, Cell, CellType
 
 class GridHandlerTest(unittest.TestCase):
@@ -164,7 +163,7 @@ class GridHandlerTest(unittest.TestCase):
         paths = gr.find_multiple_shortest_paths(grid)
 
         self.assertEqual(paths is None, True)
-        self.assertEqual(gr.error_flag, True)
+        self.assertEqual(gr.error_flag, False)
 
     def test_find_multiple_shortest_path_N3_multiple_correct_1(self):
         N = 3

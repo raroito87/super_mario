@@ -1,8 +1,6 @@
 from src import Cell, CellType
 from src.grid import Grid
-
 import itertools
-
 import math
 import copy
 
@@ -23,12 +21,10 @@ class GridHandler():
 
     def find_multiple_shortest_paths(self, grid):
         if grid is None:
-            self.error_flag = True
             return None
 
         start, end = self._get_start_end(grid)
         if start is None or end is None:
-            self.error_flag = True
             return None
 
         grid = self._fill_grid_distances(grid, start, end)
@@ -36,7 +32,6 @@ class GridHandler():
 
     def _get_start_end(self, grid):
         if grid is None:
-            self.error_flag = True
             return None, None
 
         start = []
@@ -54,7 +49,6 @@ class GridHandler():
 
     def _fill_grid_distances(self, grid, start, end):
         if grid is None or start is None or end is None:
-            self.error_flag = True
             return None
 
         max_distance = math.inf
@@ -100,14 +94,12 @@ class GridHandler():
         princess_cell = grid.at(end)
         if princess_cell.count == math.inf:
             print('no path found')
-            self.error_flag = True
             return None
 
         return grid
 
     def _return_all_paths_to_princess(self, grid, end):
         if grid is None or end is None:
-            self.error_flag = True
             return None
 
         # Returns all shortest paths to the end
