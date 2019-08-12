@@ -9,6 +9,7 @@ class MarioPaths(Base):
     __tablename__ = "mario_moves"
 
     id = Column(DateTime, primary_key=True)
+    grid = Column(String)
     moves = Column(String)
     time = Column(Float)
 

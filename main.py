@@ -30,21 +30,22 @@ def input():
 def result(raw_grid, N):
     list_grid = ast.literal_eval(raw_grid)
 
+    move_list = []
     t0 = time.time()
     paths, error_flag = MarioAndPrincess().get_paths(N, list_grid)
-    move_list = [' '.join(path) for path in paths]
-    move_str  = ','.join(move_list)
-    t1 = time.time() - t0
-
     if error_flag is False:
-        save_entry(move_str, t1)
+        move_list = [' '.join(path) for path in paths]
+        move_str = ','.join(move_list)
+        t1 = time.time() - t0
+        save_entry(raw_grid, move_str, t1)
 
     return render_template('result.html',grid=list_grid, paths=move_list, flag=error_flag)
 
 
-def save_entry(move_str, time):
+def save_entry(raw_grid, move_str, time):
     m_moves = MarioMoves()
     m_moves.id = datetime.datetime.now()
+    m_moves.grid = raw_grid
     m_moves.moves = move_str
     m_moves.time = time
 
