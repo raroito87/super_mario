@@ -11,7 +11,6 @@ class Cell():
     def __init__(self, cell_type=CellType.free, pos=None):
         self.type = cell_type
         self.count = math.inf
-        self.path_from = None
         self.paths_from = []
         self.pos = pos
 
