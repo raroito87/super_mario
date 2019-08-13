@@ -41,7 +41,7 @@ In case all the shortest paths are blocked your code is expected to return at le
 path (if exists).
 As for [error_flag] it should equal FALSE because the grid is formatted correctly.
 
-Task #2 (API and Database):
+# Task 2 (API and Database):
 
 Create a REST API for using the class/function from task one. The endpoints are up to
 you. However, your API should have inputs/outputs in the same style.
