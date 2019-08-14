@@ -92,8 +92,9 @@ The API works as follows:
   -Result Page show the grid and the output of the algorithm. If the format of the inserted parameters is wrong the error flag equals true and none paths will be listed. In case everything went ok all the shortests paths will be listed. The process can be restarted by pressing the button ‘Return’
 
 # Usage
+```sh
 python main.py # this will run the Flask API
-
+```
 
 
 
