@@ -87,9 +87,12 @@ Flask-WTF==0.14.2
 
 The input and the returning paths are saved in the database.
 The API works as follows:
-Base page http://127.0.0.1:5000 redirects to http://127.0.0.1:5000/input. In /input you insert the parameters 'N' and 'raw_grid' in the form of ‘['x-m', '---', '-p-']’ and then press ‘Rescue’. This redirects you to the /results page where the grid and the output are shown. If there format of the inserted parameters is wrong the error flag will display true and not paths will be listed. In case everything went of all the founds paths will be listed. The process can be restarted by pressing the button ‘Return’
+  -Base page http://127.0.0.1:5000 redirects to http://127.0.0.1:5000/input. 
+  -Input page takes the parameters 'N' and 'raw_grid' in the form of ‘['x-m', '---', '-p-']’ and then press ‘Rescue’ to redirect to  http://127.0.0.1:5000/result
+  -Result Page show the grid and the output of the algorithm. If the format of the inserted parameters is wrong the error flag equals true and none paths will be listed. In case everything went ok all the shortests paths will be listed. The process can be restarted by pressing the button ‘Return’
 
-To try the API run main.py.
+# Usage
+python main.py # this will run the Flask API
 
 
 
